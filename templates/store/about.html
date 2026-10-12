@@ -1,28 +1,214 @@
 {% extends 'base.html' %}
 
-{% block title %}About - NovaStore | CodeAlpha Task 1{% endblock %}
+{% block title %}About & Implementation - NovaStore | CodeAlpha Task 1{% endblock %}
 
 {% block content %}
 <div class="container py-5">
+    <!-- Hero Banner -->
     <div class="row align-items-center g-5 mb-5">
-        <div class="col-lg-6">
-            <span class="badge bg-primary text-uppercase px-3 py-1 rounded-pill mb-2">CodeAlpha Internship</span>
-            <h1 class="display-5 fw-bold mb-3">Simple E-Commerce Store</h1>
+        <div class="col-lg-7">
+            <div class="d-inline-flex align-items-center gap-2 px-3 py-1 rounded-pill bg-primary bg-opacity-10 text-primary mb-3 border border-primary border-opacity-25 small">
+                <span class="badge bg-primary">Task 1</span>
+                <span>CodeAlpha Web Development Internship</span>
+                <a href="https://www.codealpha.tech" target="_blank" class="text-primary fw-bold text-decoration-none">www.codealpha.tech</a>
+            </div>
+            <h1 class="display-5 fw-extrabold mb-3 text-dark">
+                Simple E-Commerce Store <span class="text-primary-gradient">Implementation</span>
+            </h1>
             <p class="lead text-muted mb-4">
-                This project was created for <strong>CodeAlpha</strong> Web Development Internship Task 1 (<a href="https://www.codealpha.tech" target="_blank" class="text-primary text-decoration-none">www.codealpha.tech</a>). It demonstrates a complete, production-grade full-stack e-commerce web application.
+                This project was developed for the <strong>CodeAlpha</strong> Web Development Internship ([www.codealpha.tech](https://www.codealpha.tech)). It fulfills all requirements for building a production-grade full-stack e-commerce web platform with product listings, dynamic cart, order processing, and user authentication.
             </p>
-            <div class="d-flex gap-3">
-                <a href="https://www.codealpha.tech" target="_blank" class="btn btn-primary rounded-pill px-4 shadow">
-                    <i class="bi bi-globe me-2"></i>Visit CodeAlpha
+            <div class="d-flex flex-wrap gap-3">
+                <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store" target="_blank" rel="noopener noreferrer" class="btn btn-dark rounded-pill px-4 shadow">
+                    <i class="bi bi-github me-2"></i>GitHub Repository
                 </a>
-                <a href="{% url 'home' %}" class="btn btn-outline-dark rounded-pill px-4">
-                    <i class="bi bi-cart3 me-2"></i>Explore Store
+                <a href="https://www.codealpha.tech" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary rounded-pill px-4">
+                    <i class="bi bi-globe me-2"></i>CodeAlpha Official
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-primary rounded-pill px-4 shadow">
+                    <i class="bi bi-cart3 me-2"></i>Explore Products
                 </a>
             </div>
         </div>
-        <div class="col-lg-6">
+        <div class="col-lg-5">
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80" alt="Tech Dashboard" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <!-- Implementation & Direct Resource Links Section -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white mb-5">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 border-bottom pb-3 mb-4">
+            <div>
+                <h3 class="fw-bold mb-1"><i class="bi bi-link-45deg text-primary me-2"></i>Implementation Links & Resources</h3>
+                <p class="text-muted small mb-0">Direct access to the running application, source repository, and official links.</p>
+            </div>
+            <span class="badge bg-success-subtle text-success fs-6 px-3 py-2 rounded-pill">
+                <i class="bi bi-check-circle-fill me-1"></i>Verified & Deployed
+            </span>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <!-- Resource Card 1: Official Internship -->
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 h-100 bg-light">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-building fs-4 text-primary"></i>
+                        <h6 class="fw-bold mb-0">Internship Portal</h6>
+                    </div>
+                    <p class="small text-muted mb-3">Official organization website and verification portal for CodeAlpha internships.</p>
+                    <a href="https://www.codealpha.tech" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-outline-primary rounded-pill w-100">
+                        www.codealpha.tech <i class="bi bi-box-arrow-up-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resource Card 2: GitHub Repository -->
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 h-100 bg-light">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-github fs-4 text-dark"></i>
+                        <h6 class="fw-bold mb-0">GitHub Source Code</h6>
+                    </div>
+                    <p class="small text-muted mb-3">Complete open-source repository containing codebase, migrations, seeders, and tests.</p>
+                    <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-dark rounded-pill w-100">
+                        View on GitHub <i class="bi bi-box-arrow-up-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Resource Card 3: Admin Back-Office -->
+            <div class="col-md-4">
+                <div class="p-3 border rounded-3 h-100 bg-light">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <i class="bi bi-shield-lock-fill fs-4 text-warning"></i>
+                        <h6 class="fw-bold mb-0">Django Admin Panel</h6>
+                    </div>
+                    <p class="small text-muted mb-3">Live control center to manage product catalogs, orders, categories, and customer data.</p>
+                    <a href="/admin/" target="_blank" class="btn btn-sm btn-outline-dark rounded-pill w-100">
+                        Open Admin Dashboard <i class="bi bi-arrow-right ms-1"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Source Code File Navigation -->
+        <h6 class="fw-bold text-uppercase text-muted small tracking-wide mb-3">Codebase Architecture & File Links</h6>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover align-middle mb-0">
+                <thead class="table-light small">
+                    <tr>
+                        <th>Component</th>
+                        <th>File Location</th>
+                        <th>Description</th>
+                        <th class="text-end">GitHub Link</th>
+                    </tr>
+                </thead>
+                <tbody class="small">
+                    <tr>
+                        <td><strong>Database Schema</strong></td>
+                        <td><code>store/models.py</code></td>
+                        <td>Category, Product, Cart, CartItem, Order, OrderItem, and UserProfile models</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/store/models.py" target="_blank" class="text-primary text-decoration-none">
+                                models.py <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Views & Endpoints</strong></td>
+                        <td><code>store/views.py</code></td>
+                        <td>Product listings, details, AJAX cart operations, checkout processing, and auth</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/store/views.py" target="_blank" class="text-primary text-decoration-none">
+                                views.py <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>URL Routing</strong></td>
+                        <td><code>store/urls.py</code></td>
+                        <td>All user-facing URL routes, cart operations, checkout, and receipt routes</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/store/urls.py" target="_blank" class="text-primary text-decoration-none">
+                                urls.py <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Forms & Validation</strong></td>
+                        <td><code>store/forms.py</code></td>
+                        <td>Registration, Login, Checkout shipping address capture, and Profile forms</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/store/forms.py" target="_blank" class="text-primary text-decoration-none">
+                                forms.py <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Frontend Design</strong></td>
+                        <td><code>static/css/custom.css</code></td>
+                        <td>Modern custom CSS stylesheet with responsive components, badges, and stepper</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/static/css/custom.css" target="_blank" class="text-primary text-decoration-none">
+                                custom.css <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Interactive JS</strong></td>
+                        <td><code>static/js/main.js</code></td>
+                        <td>Vanilla JavaScript toast notifications, AJAX cart updater, and demo autofill</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/static/js/main.js" target="_blank" class="text-primary text-decoration-none">
+                                main.js <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><strong>Database Seeder</strong></td>
+                        <td><code>seed_data.py</code></td>
+                        <td>Automated script seeding 16 realistic items, categories, demo users, and sample orders</td>
+                        <td class="text-end">
+                            <a href="https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store/blob/main/seed_data.py" target="_blank" class="text-primary text-decoration-none">
+                                seed_data.py <i class="bi bi-box-arrow-up-right"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pre-configured Demo Testing Credentials Card -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-light mb-5 border-start border-primary border-4">
+        <h4 class="fw-bold mb-2 d-flex align-items-center gap-2">
+            <i class="bi bi-key-fill text-primary"></i>Evaluator Demo Credentials
+        </h4>
+        <p class="text-muted small mb-4">
+            For swift evaluation, test accounts are pre-configured with pre-seeded cart and order records:
+        </p>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="card bg-white border-0 shadow-xs p-3 rounded-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-warning text-dark fw-bold">Admin Account</span>
+                        <a href="/admin/" target="_blank" class="small text-primary text-decoration-none">Open Admin Login &rarr;</a>
+                    </div>
+                    <p class="mb-1 small"><strong>Username:</strong> <code>admin</code></p>
+                    <p class="mb-0 small"><strong>Password:</strong> <code>admin123</code></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-white border-0 shadow-xs p-3 rounded-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="badge bg-primary text-white fw-bold">Demo Customer</span>
+                        <a href="{% url 'login' %}" class="small text-primary text-decoration-none">Open Store Login &rarr;</a>
+                    </div>
+                    <p class="mb-1 small"><strong>Username:</strong> <code>customer</code></p>
+                    <p class="mb-0 small"><strong>Password:</strong> <code>customer123</code></p>
+                </div>
             </div>
         </div>
     </div>
