@@ -10,7 +10,8 @@
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](#license)
 
 > Developed as part of the **CodeAlpha Web Development Internship** ([www.codealpha.tech](https://www.codealpha.tech)).  
-> **Task 1: Simple E-Commerce Store** — A modern, responsive, and full-featured e-commerce platform built with Django (Python), SQLite, and vanilla frontend technologies.
+> **Task 1: Simple E-Commerce Store** — A modern, responsive, and full-featured e-commerce platform built with Django (Python), SQLite, and vanilla frontend technologies.  
+> 🌐 **Live Render Deployment Link**: [https://codealpha-ecommerce-store.onrender.com](https://codealpha-ecommerce-store.onrender.com)
 
 ---
 
