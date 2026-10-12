@@ -2,6 +2,7 @@
 
 [![CodeAlpha Internship](https://img.shields.io/badge/CodeAlpha-Web%20Development%20Internship-blue.svg)](https://www.codealpha.tech)
 [![Task](https://img.shields.io/badge/Task-Task%201%3A%20Simple%20E--Commerce%20Store-indigo.svg)](https://www.codealpha.tech)
+[![Render Deployment](https://img.shields.io/badge/Render-Deployed%20Live-brightgreen.svg?logo=render&logoColor=white)](https://codealpha-ecommerce-store.onrender.com)
 [![Python](https://img.shields.io/badge/Python-3.13-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
 [![Django](https://img.shields.io/badge/Django-5.1.6-darkgreen.svg?logo=django&logoColor=white)](https://www.djangoproject.com/)
 [![Database](https://img.shields.io/badge/Database-SQLite3-003B57.svg?logo=sqlite&logoColor=white)](https://www.sqlite.org/)
@@ -15,9 +16,10 @@
 
 ## 🌟 Live Demo & Quick Links
 
+- 🚀 **Live Render Deployment**: [https://codealpha-ecommerce-store.onrender.com](https://codealpha-ecommerce-store.onrender.com)
 - 🌐 **Internship Portal**: [https://www.codealpha.tech](https://www.codealpha.tech)
 - 💻 **GitHub Repository**: [https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store](https://github.com/Harika3560123/CodeAlpha_Ecommerce_Store)
-- 🚀 **Pre-seeded Admin Dashboard**: `http://127.0.0.1:8000/admin/`
+- 🛠️ **Pre-seeded Admin Dashboard**: `http://127.0.0.1:8000/admin/` (or `/admin/` on live deployment)
 
 ---
 
