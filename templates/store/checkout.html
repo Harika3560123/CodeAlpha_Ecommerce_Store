@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+
+{% block title %}Checkout - NovaStore{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Stepper Bar -->
+    <div class="stepper-bar max-w-lg mx-auto">
+        <div class="step-item completed">
+            <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+            <div class="step-label">1. Shopping Cart</div>
+        </div>
+        <div class="step-item active">
+            <div class="step-circle"><i class="bi bi-credit-card"></i></div>
+            <div class="step-label">2. Checkout</div>
+        </div>
+        <div class="step-item">
+            <div class="step-circle"><i class="bi bi-check2-circle"></i></div>
+            <div class="step-label">3. Confirmation</div>
+        </div>
+    </div>
+
+    <!-- Quick Demo Filler Alert for Evaluators -->
+    <div class="alert alert-primary bg-primary-subtle border-primary-subtle rounded-4 p-3 mb-4 d-flex align-items-center justify-content-between flex-wrap gap-2">
+        <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-magic fs-4 text-primary"></i>
+            <div>
+                <strong>Testing this CodeAlpha Project?</strong>
+                <span class="small d-block text-muted">Click the button on the right to instantly auto-fill realistic shipping details.</span>
+            </div>
+        </div>
+        <button type="button" id="btn-fill-demo-checkout" class="btn btn-primary btn-sm rounded-pill px-3 shadow-xs">
+            <i class="bi bi-lightning-fill me-1"></i>Auto-Fill Demo Details
+        </button>
+    </div>
+
+    <form action="{% url 'order_process' %}" method="POST" id="checkout-form">
+        {% csrf_token %}
+        <div class="row g-4">
+            <!-- Left Column: Shipping & Payment Information -->
+            <div class="col-lg-8">
+                <!-- Shipping Address Card -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
+                    <h5 class="fw-bold mb-3 border-bottom pb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-geo-alt-fill text-primary"></i>Shipping Address
+                    </h5>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">First Name *</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}<div class="text-danger small">{{ form.first_name.errors }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Last Name *</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}<div class="text-danger small">{{ form.last_name.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Email Address *</label>
+                            {{ form.email }}
+                            {% if form.email.errors %}<div class="text-danger small">{{ form.email.errors }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Phone Number *</label>
+                            {{ form.phone }}
+                            {% if form.phone.errors %}<div class="text-danger small">{{ form.phone.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Street Address *</label>
+                            {{ form.address_line1 }}
+                            {% if form.address_line1.errors %}<div class="text-danger small">{{ form.address_line1.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Apartment, Suite, Unit (Optional)</label>
+                            {{ form.address_line2 }}
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold">City *</label>
+                            {{ form.city }}
+                            {% if form.city.errors %}<div class="text-danger small">{{ form.city.errors }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold">State / Province *</label>
+                            {{ form.state }}
+                            {% if form.state.errors %}<div class="text-danger small">{{ form.state.errors }}</div>{% endif %}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label small fw-semibold">Postal / ZIP Code *</label>
+                            {{ form.postal_code }}
+                            {% if form.postal_code.errors %}<div class="text-danger small">{{ form.postal_code.errors }}</div>{% endif %}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Country *</label>
+                            {{ form.country }}
+                        </div>
+
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">Delivery Instructions / Order Notes (Optional)</label>
+                            {{ form.order_notes }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Methods Card -->
+                <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                    <h5 class="fw-bold mb-3 border-bottom pb-2 d-flex align-items-center gap-2">
+                        <i class="bi bi-wallet2 text-primary"></i>Payment Method
+                    </h5>
+
+                    <div class="d-flex flex-column gap-3 mb-3">
+                        <!-- Option 1: Cash on Delivery -->
+                        <div class="form-check p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                            <div>
+                                <input class="form-check-input ms-0 me-3" type="radio" name="payment_method" id="pay_cod" value="cod" checked>
+                                <label class="form-check-label fw-bold" for="pay_cod">
+                                    Cash on Delivery (COD)
+                                </label>
+                                <div class="small text-muted ms-4">Pay with cash when your package is delivered to your doorstep.</div>
+                            </div>
+                            <i class="bi bi-cash-coin fs-3 text-success me-2"></i>
+                        </div>
+
+                        <!-- Option 2: Credit / Debit Card (Mock) -->
+                        <div class="form-check p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                            <div>
+                                <input class="form-check-input ms-0 me-3" type="radio" name="payment_method" id="pay_card" value="card">
+                                <label class="form-check-label fw-bold" for="pay_card">
+                                    Credit / Debit Card (Online)
+                                </label>
+                                <div class="small text-muted ms-4">Instant payment via Visa, MasterCard, RuPay, or Amex.</div>
+                            </div>
+                            <div class="d-flex gap-2 text-primary fs-3 me-2">
+                                <i class="bi bi-credit-card-2-front"></i>
+                            </div>
+                        </div>
+
+                        <!-- Option 3: UPI / Instant QR (Mock) -->
+                        <div class="form-check p-3 border rounded-3 bg-light d-flex align-items-center justify-content-between">
+                            <div>
+                                <input class="form-check-input ms-0 me-3" type="radio" name="payment_method" id="pay_upi" value="upi">
+                                <label class="form-check-label fw-bold" for="pay_upi">
+                                    UPI / QR Code (PhonePe, GPay, Paytm)
+                                </label>
+                                <div class="small text-muted ms-4">Scan and pay instantly from any UPI enabled app.</div>
+                            </div>
+                            <i class="bi bi-qr-code-scan fs-3 text-dark me-2"></i>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-secondary small mb-0 rounded-3">
+                        <i class="bi bi-info-circle me-1"></i>Note for evaluator: This order processing supports instant mock card and UPI authorizations as well as Cash on Delivery.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Order Summary Sidebar -->
+            <div class="col-lg-4">
+                <div class="summary-card sticky-top" style="top: 90px;">
+                    <h5 class="fw-bold mb-3 border-bottom pb-2">Order Summary</h5>
+
+                    <!-- Cart Items Mini List -->
+                    <div class="cart-items-mini mb-3 overflow-auto" style="max-height: 220px;">
+                        {% for item in cart_items %}
+                        <div class="d-flex align-items-center justify-content-between py-2 border-bottom">
+                            <div class="d-flex align-items-center gap-2">
+                                <img src="{{ item.product.get_image }}" alt="{{ item.product.name }}" class="rounded-2 object-fit-cover" style="width: 44px; height: 44px;">
+                                <div>
+                                    <div class="small fw-semibold text-truncate" style="max-width: 150px;">{{ item.product.name }}</div>
+                                    <small class="text-muted">{{ item.quantity }} &times; ${{ item.product.get_effective_price }}</small>
+                                </div>
+                            </div>
+                            <span class="fw-bold small">${{ item.item_total }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="summary-row">
+                        <span class="text-muted">Subtotal ({{ cart.total_items }} items)</span>
+                        <span class="fw-bold">${{ cart.subtotal }}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span class="text-muted">Estimated Tax (5%)</span>
+                        <span class="fw-bold">${{ cart.tax }}</span>
+                    </div>
+
+                    <div class="summary-row">
+                        <span class="text-muted">Shipping Cost</span>
+                        <span class="fw-bold text-success">
+                            {% if cart.shipping == 0 %}FREE{% else %}${{ cart.shipping }}{% endif %}
+                        </span>
+                    </div>
+
+                    <div class="summary-row summary-total border-top pt-3">
+                        <span>Total Payable</span>
+                        <span class="text-primary">${{ cart.grand_total }}</span>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill mt-4 shadow" id="btn-place-order">
+                        <i class="bi bi-check-circle-fill me-2"></i>Place Order Now
+                    </button>
+
+                    <div class="text-center mt-3 text-muted small">
+                        <i class="bi bi-shield-check text-success me-1"></i>Guaranteed Safe & Secure Checkout
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

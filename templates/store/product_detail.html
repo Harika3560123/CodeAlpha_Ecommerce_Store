@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - NovaStore{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'home' %}?category={{ product.category.slug }}" class="text-decoration-none">{{ product.category.name }}</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name|truncatechars:35 }}</li>
+        </ol>
+    </nav>
+
+    <!-- Product Main View -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-5">
+        <div class="card-body p-lg-5 p-4">
+            <div class="row g-5 align-items-center">
+                <!-- Product Image Gallery / Main Image -->
+                <div class="col-lg-6">
+                    <div class="position-relative rounded-4 overflow-hidden shadow-sm bg-light text-center" style="min-height: 400px;">
+                        {% if product.has_discount %}
+                        <div class="position-absolute top-0 start-0 m-3 z-2">
+                            <span class="badge-discount fs-6">-{{ product.discount_percent }}% OFF</span>
+                        </div>
+                        {% endif %}
+                        <img src="{{ product.get_image }}" alt="{{ product.name }}" class="img-fluid rounded-4 w-100 object-fit-cover" style="max-height: 520px;">
+                    </div>
+                </div>
+
+                <!-- Product Information & Purchase Controls -->
+                <div class="col-lg-6">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-1 rounded-pill">
+                            <i class="bi {{ product.category.icon }} me-1"></i>{{ product.category.name }}
+                        </span>
+                        {% if product.in_stock %}
+                        <span class="badge bg-success-subtle text-success fw-bold px-3 py-1 rounded-pill">
+                            <i class="bi bi-check-circle-fill me-1"></i>In Stock ({{ product.stock }} left)
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger-subtle text-danger fw-bold px-3 py-1 rounded-pill">
+                            <i class="bi bi-x-circle-fill me-1"></i>Out of Stock
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <h1 class="fw-bold mb-2 text-dark">{{ product.name }}</h1>
+
+                    <!-- Rating & Reviews -->
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="star-rating fs-6">
+                            <i class="bi bi-star-fill"></i>
+                            <span class="fw-bold text-dark ms-1">{{ product.rating }}</span>
+                        </div>
+                        <span class="text-muted small">|</span>
+                        <span class="text-muted small"><i class="bi bi-chat-left-text me-1"></i>{{ product.reviews_count }} Customer Reviews</span>
+                        <span class="text-muted small">|</span>
+                        <span class="text-muted small"><i class="bi bi-shield-check text-success me-1"></i>Verified Product</span>
+                    </div>
+
+                    <!-- Price Card -->
+                    <div class="p-3 bg-light rounded-3 mb-4 d-flex align-items-baseline gap-3">
+                        <span class="display-6 fw-extrabold text-primary mb-0">${{ product.get_effective_price }}</span>
+                        {% if product.has_discount %}
+                        <span class="fs-5 text-muted text-decoration-line-through">${{ product.price }}</span>
+                        <span class="badge bg-danger text-white rounded-pill px-2 py-1 small">Save ${{ product.price|add:"-"|add:product.discount_price }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Product Description -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-uppercase text-muted small tracking-wide mb-2">Product Description</h6>
+                        <p class="text-secondary leading-relaxed">{{ product.description }}</p>
+                    </div>
+
+                    <!-- Specifications / Key Features -->
+                    {% if specs %}
+                    <div class="mb-4">
+                        <h6 class="fw-bold text-uppercase text-muted small tracking-wide mb-2">Key Highlights & Specs</h6>
+                        <ul class="list-unstyled mb-0">
+                            {% for spec in specs %}
+                            <li class="d-flex align-items-start gap-2 mb-1 small text-secondary">
+                                <i class="bi bi-check2-circle text-primary mt-1"></i>
+                                <span>{{ spec }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <hr class="my-4">
+
+                    <!-- Purchase Actions -->
+                    {% if product.in_stock %}
+                    <form action="{% url 'cart_add' product_id=product.id %}" method="POST" class="d-flex flex-column gap-3">
+                        {% csrf_token %}
+                        <div class="d-flex align-items-center gap-3">
+                            <label class="fw-semibold small text-muted text-nowrap">Quantity:</label>
+                            <div class="quantity-control">
+                                <button type="button" class="quantity-btn" onclick="let input = document.getElementById('product-quantity-input'); if(input.value > 1) input.value--;">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" name="quantity" id="product-quantity-input" class="quantity-input" value="1" min="1" max="{{ product.stock }}">
+                                <button type="button" class="quantity-btn" onclick="let input = document.getElementById('product-quantity-input'); if(input.value < {{ product.stock }}) input.value++;">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                            <span class="small text-muted">Max: {{ product.stock }} items</span>
+                        </div>
+
+                        <div class="d-flex gap-3 pt-2">
+                            <button type="button" class="btn btn-primary btn-lg rounded-pill px-4 flex-grow-1 btn-add-to-cart" data-product-id="{{ product.id }}">
+                                <i class="bi bi-cart-plus me-2"></i>Add to Cart
+                            </button>
+                            <button type="submit" class="btn btn-outline-dark btn-lg rounded-pill px-4">
+                                <i class="bi bi-lightning-charge me-1"></i>Buy Now
+                            </button>
+                        </div>
+                    </form>
+                    {% else %}
+                    <div class="alert alert-warning rounded-3" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        This item is currently out of stock. Please check back later or explore alternative recommendations below.
+                    </div>
+                    {% endif %}
+
+                    <!-- Trust Assurance Grid -->
+                    <div class="row g-2 mt-4 pt-3 border-top text-center text-muted small">
+                        <div class="col-4">
+                            <i class="bi bi-truck fs-5 text-primary d-block mb-1"></i>
+                            <span>Fast Dispatch</span>
+                        </div>
+                        <div class="col-4">
+                            <i class="bi bi-shield-lock fs-5 text-success d-block mb-1"></i>
+                            <span>100% Genuine</span>
+                        </div>
+                        <div class="col-4">
+                            <i class="bi bi-arrow-counterclockwise fs-5 text-info d-block mb-1"></i>
+                            <span>Easy Exchange</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Related Products Showcase -->
+    {% if related_products %}
+    <div class="mb-5">
+        <h3 class="fw-bold mb-4">Related Products in {{ product.category.name }}</h3>
+        <div class="row g-4">
+            {% for item in related_products %}
+            <div class="col-lg-3 col-md-6 col-6">
+                <div class="product-card">
+                    <a href="{% url 'product_detail' slug=item.slug %}" class="product-image-container">
+                        <img src="{{ item.get_image }}" alt="{{ item.name }}" loading="lazy">
+                    </a>
+                    <div class="product-card-body">
+                        <a href="{% url 'product_detail' slug=item.slug %}" class="product-title">{{ item.name }}</a>
+                        <div class="price-container">
+                            <span class="price-current">${{ item.get_effective_price }}</span>
+                            {% if item.has_discount %}
+                            <span class="price-original">${{ item.price }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="product-card-footer">
+                        <button class="btn btn-outline-primary btn-sm w-100 rounded-pill btn-add-to-cart" data-product-id="{{ item.id }}">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

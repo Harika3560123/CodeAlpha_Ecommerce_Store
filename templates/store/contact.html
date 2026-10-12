@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact & Support - NovaStore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row g-5">
+        <!-- Contact Form Column -->
+        <div class="col-lg-7">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+                <span class="badge bg-primary-subtle text-primary fw-bold text-uppercase px-3 py-1 rounded-pill mb-2 d-inline-block">Get In Touch</span>
+                <h2 class="fw-bold mb-2">We'd Love to Hear From You</h2>
+                <p class="text-muted small mb-4">Have questions about our products, orders, or the CodeAlpha project? Send us a message.</p>
+
+                <form method="POST" action="{% url 'contact' %}">
+                    {% csrf_token %}
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Your Name *</label>
+                            <input type="text" name="name" class="form-control" placeholder="John Doe" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Email Address *</label>
+                            <input type="email" name="email" class="form-control" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Subject *</label>
+                        <input type="text" name="subject" class="form-control" placeholder="Inquiry about order or products" required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">Your Message *</label>
+                        <textarea name="message" rows="5" class="form-control" placeholder="Write your message here..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary rounded-pill px-4 shadow">
+                        <i class="bi bi-send-fill me-2"></i>Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- FAQs & Info Column -->
+        <div class="col-lg-5">
+            <!-- Contact Info Box -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white mb-4">
+                <h5 class="fw-bold mb-3 border-bottom pb-2">Support Channels</h5>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="feature-icon-wrapper" style="width: 40px; height: 40px; font-size: 1.1rem;">
+                        <i class="bi bi-envelope"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Support Email</small>
+                        <span class="fw-bold small">support@novastore.example</span>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                    <div class="feature-icon-wrapper" style="width: 40px; height: 40px; font-size: 1.1rem;">
+                        <i class="bi bi-globe"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Internship Portal</small>
+                        <a href="https://www.codealpha.tech" target="_blank" class="fw-bold small text-decoration-none">www.codealpha.tech</a>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="feature-icon-wrapper" style="width: 40px; height: 40px; font-size: 1.1rem;">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted d-block">Operating Hours</small>
+                        <span class="fw-bold small">Monday - Saturday, 9 AM - 7 PM IST</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Accordion -->
+            <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
+                <h5 class="fw-bold mb-3 border-bottom pb-2">Frequently Asked Questions</h5>
+                <div class="accordion accordion-flush" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed px-0 small fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                How does shipping work?
+                            </button>
+                        </h2>
+                        <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                Orders over $50 qualify for free express shipping. All standard orders under $50 have a flat $5 shipping rate.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed px-0 small fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                What payment methods are supported?
+                            </button>
+                        </h2>
+                        <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                Cash on Delivery (COD), Credit/Debit Card payments, and UPI payment simulation with automatic confirmation.
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed px-0 small fw-semibold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                How can I test this project?
+                            </button>
+                        </h2>
+                        <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body px-0 text-muted small">
+                                Use the pre-seeded demo accounts on the login page (<code>customer / customer123</code> or <code>admin / admin123</code>) and 1-click address fill on checkout!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

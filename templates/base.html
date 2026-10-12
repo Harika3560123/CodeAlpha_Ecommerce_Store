@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}NovaStore - Premium E-Commerce Store{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/custom.css">
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <!-- Top Announcement Bar (CodeAlpha Internship Badge) -->
+    <div class="top-announcement-bar py-1 text-center text-white small">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap">
+            <div class="d-flex align-items-center gap-2">
+                <span class="badge bg-white text-primary fw-bold">CodeAlpha</span>
+                <span>Task 1: Simple E-Commerce Store</span>
+            </div>
+            <div class="d-none d-md-flex align-items-center gap-3">
+                <a href="https://www.codealpha.tech" target="_blank" rel="noopener noreferrer" class="text-white text-decoration-none hover-underline">
+                    <i class="bi bi-globe me-1"></i>www.codealpha.tech
+                </a>
+                <span>|</span>
+                <span><i class="bi bi-truck me-1"></i>Free Shipping on Orders Over $50</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top main-navbar shadow-sm">
+        <div class="container">
+            <!-- Brand Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="{% url 'home' %}">
+                <div class="brand-logo-icon">
+                    <i class="bi bi-bag-heart-fill"></i>
+                </div>
+                <span>Nova<span class="text-primary-gradient">Store</span></span>
+            </a>
+
+            <!-- Mobile Navbar Toggle -->
+            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Navbar Links & Search -->
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <!-- Search Bar -->
+                <form class="d-flex my-2 my-lg-0 mx-lg-auto search-form" action="{% url 'home' %}" method="GET">
+                    <div class="input-group">
+                        <input type="text" name="q" class="form-control search-input" placeholder="Search products, brands, categories..." value="{{ query|default:'' }}" aria-label="Search">
+                        <button class="btn btn-primary search-btn" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Navigation Items -->
+                <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">
+                            <i class="bi bi-grid-fill me-1"></i>Products
+                        </a>
+                    </li>
+
+                    <!-- Categories Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-tags-fill me-1"></i>Categories
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="categoriesDropdown">
+                            <li><a class="dropdown-item" href="{% url 'home' %}"><i class="bi bi-list-stars me-2"></i>All Categories</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            {% for cat in nav_categories %}
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center justify-content-between" href="{% url 'home' %}?category={{ cat.slug }}">
+                                    <span><i class="bi {{ cat.icon }} me-2 text-primary"></i>{{ cat.name }}</span>
+                                    <span class="badge bg-secondary rounded-pill small">{{ cat.products.count }}</span>
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/about/' %}active{% endif %}" href="{% url 'about' %}">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/contact/' %}active{% endif %}" href="{% url 'contact' %}">Contact</a>
+                    </li>
+
+                    <!-- Shopping Cart Button -->
+                    <li class="nav-item">
+                        <a class="nav-link cart-link position-relative btn btn-outline-light btn-sm px-3 ms-lg-2 rounded-pill" href="{% url 'cart_detail' %}">
+                            <i class="bi bi-cart3 me-1"></i>Cart
+                            <span class="badge rounded-pill bg-danger cart-badge" id="cart-badge-count">
+                                {{ cart_count|default:0 }}
+                            </span>
+                        </a>
+                    </li>
+
+                    <!-- User Account Dropdown -->
+                    {% if user.is_authenticated %}
+                    <li class="nav-item dropdown ms-lg-2 mt-2 mt-lg-0">
+                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 user-menu-pill" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div class="user-avatar-circle">
+                                {{ user.first_name|default:user.username|make_list|first|upper }}
+                            </div>
+                            <span class="d-none d-lg-inline">{{ user.first_name|default:user.username }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow" aria-labelledby="userDropdown">
+                            <li class="dropdown-header text-muted small">Signed in as <strong>{{ user.username }}</strong></li>
+                            <li><a class="dropdown-item" href="{% url 'user_profile' %}"><i class="bi bi-person-circle me-2"></i>My Profile</a></li>
+                            <li><a class="dropdown-item" href="{% url 'order_history' %}"><i class="bi bi-box-seam me-2"></i>My Orders</a></li>
+                            {% if user.is_staff %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-warning" href="/admin/" target="_blank"><i class="bi bi-shield-lock me-2"></i>Admin Dashboard</a></li>
+                            {% endif %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0 d-flex gap-2">
+                        <a class="btn btn-outline-light btn-sm rounded-pill px-3" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Sign In
+                        </a>
+                        <a class="btn btn-primary btn-sm rounded-pill px-3" href="{% url 'register' %}">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Global Toast / Flash Notifications -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1090;">
+        {% if messages %}
+            {% for message in messages %}
+            <div class="toast show align-items-center text-white bg-{% if message.tags == 'error' %}danger{% elif message.tags == 'success' %}success{% elif message.tags == 'warning' %}warning text-dark{% else %}primary{% endif %} border-0 shadow-lg mb-2" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body d-flex align-items-center gap-2">
+                        <i class="bi {% if message.tags == 'error' %}bi-exclamation-triangle-fill{% elif message.tags == 'success' %}bi-check-circle-fill{% elif message.tags == 'warning' %}bi-exclamation-circle-fill{% else %}bi-info-circle-fill{% endif %} fs-5"></i>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+            </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Dynamic JS Toasts container -->
+        <div id="dynamic-toast-mount"></div>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-3 mt-5 border-top border-secondary">
+        <div class="container">
+            <div class="row g-4 mb-4">
+                <!-- Col 1: Brand Info -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-logo-icon">
+                            <i class="bi bi-bag-heart-fill"></i>
+                        </div>
+                        <h4 class="fw-bold mb-0">Nova<span class="text-primary-gradient">Store</span></h4>
+                    </div>
+                    <p class="text-muted small">
+                        A modern, full-featured e-commerce platform built as part of the <strong>CodeAlpha</strong> Web Development Internship Task 1. Features product listings, shopping cart, dynamic checkout, order processing, and user authentication.
+                    </p>
+                    <div class="d-flex gap-2 mt-3">
+                        <span class="badge bg-secondary"><i class="bi bi-code-slash me-1"></i>Django 5</span>
+                        <span class="badge bg-secondary"><i class="bi bi-database me-1"></i>SQLite</span>
+                        <span class="badge bg-secondary"><i class="bi bi-filetype-html me-1"></i>HTML5</span>
+                        <span class="badge bg-secondary"><i class="bi bi-filetype-css me-1"></i>CSS3</span>
+                        <span class="badge bg-secondary"><i class="bi bi-filetype-js me-1"></i>Vanilla JS</span>
+                    </div>
+                </div>
+
+                <!-- Col 2: Quick Links -->
+                <div class="col-lg-2 col-md-6">
+                    <h6 class="text-uppercase fw-bold text-white mb-3 tracking-wide">Quick Links</h6>
+                    <ul class="list-unstyled text-muted small d-flex flex-column gap-2 mb-0">
+                        <li><a href="{% url 'home' %}" class="text-muted text-decoration-none hover-white"><i class="bi bi-chevron-right me-1"></i>All Products</a></li>
+                        <li><a href="{% url 'cart_detail' %}" class="text-muted text-decoration-none hover-white"><i class="bi bi-chevron-right me-1"></i>Shopping Cart</a></li>
+                        <li><a href="{% url 'about' %}" class="text-muted text-decoration-none hover-white"><i class="bi bi-chevron-right me-1"></i>About Project</a></li>
+                        <li><a href="{% url 'contact' %}" class="text-muted text-decoration-none hover-white"><i class="bi bi-chevron-right me-1"></i>Help & Contact</a></li>
+                        <li><a href="/admin/" target="_blank" class="text-muted text-decoration-none hover-white"><i class="bi bi-chevron-right me-1"></i>Admin Panel</a></li>
+                    </ul>
+                </div>
+
+                <!-- Col 3: Categories -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-uppercase fw-bold text-white mb-3 tracking-wide">Product Categories</h6>
+                    <ul class="list-unstyled text-muted small d-flex flex-column gap-2 mb-0">
+                        {% for cat in nav_categories|slice:":4" %}
+                        <li>
+                            <a href="{% url 'home' %}?category={{ cat.slug }}" class="text-muted text-decoration-none hover-white">
+                                <i class="bi {{ cat.icon }} me-1 text-primary"></i>{{ cat.name }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Col 4: Internship Credits -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-uppercase fw-bold text-white mb-3 tracking-wide">Internship Details</h6>
+                    <div class="card bg-secondary bg-opacity-25 border-0 p-3 rounded-3">
+                        <p class="small text-white-50 mb-2">
+                            <strong>Organization:</strong> CodeAlpha<br>
+                            <strong>Website:</strong> <a href="https://www.codealpha.tech" target="_blank" rel="noopener noreferrer" class="text-primary-gradient text-decoration-none">www.codealpha.tech</a><br>
+                            <strong>Task 1:</strong> Simple E-Commerce Store<br>
+                            <strong>Developer:</strong> Harika
+                        </p>
+                        <a href="https://www.codealpha.tech" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary btn-sm rounded-pill mt-1">
+                            Visit CodeAlpha <i class="bi bi-box-arrow-up-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-secondary my-3">
+
+            <div class="row align-items-center text-muted small">
+                <div class="col-md-6 text-center text-md-start">
+                    &copy; 2026 NovaStore | Developed for CodeAlpha Internship Task 1 (<a href="https://www.codealpha.tech" target="_blank" class="text-muted">www.codealpha.tech</a>).
+                </div>
+                <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
+                    <span class="me-3"><i class="bi bi-shield-check text-success me-1"></i>Secure Checkout</span>
+                    <span class="me-3"><i class="bi bi-arrow-repeat text-info me-1"></i>Easy Returns</span>
+                    <span><i class="bi bi-headset text-warning me-1"></i>24/7 Support</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom Store JS -->
+    <script src="/static/js/main.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

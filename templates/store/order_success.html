@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Order Confirmed - #{{ order.order_number }} - NovaStore{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Stepper Bar -->
+    <div class="stepper-bar max-w-lg mx-auto">
+        <div class="step-item completed">
+            <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+            <div class="step-label">1. Shopping Cart</div>
+        </div>
+        <div class="step-item completed">
+            <div class="step-circle"><i class="bi bi-check-lg"></i></div>
+            <div class="step-label">2. Checkout</div>
+        </div>
+        <div class="step-item active">
+            <div class="step-circle"><i class="bi bi-check2-circle"></i></div>
+            <div class="step-label">3. Confirmation</div>
+        </div>
+    </div>
+
+    <!-- Celebration Card -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden mb-4 bg-white text-center p-4 p-md-5">
+        <div class="mb-3">
+            <div class="d-inline-flex align-items-center justify-content-center bg-success bg-opacity-10 text-success rounded-circle" style="width: 80px; height: 80px;">
+                <i class="bi bi-check-circle-fill display-4"></i>
+            </div>
+        </div>
+        <h2 class="fw-bold text-dark mb-2">Thank You for Your Order!</h2>
+        <p class="text-muted lead max-w-lg mx-auto mb-4">
+            Your order has been placed successfully and is now being processed by our fulfillment center.
+        </p>
+
+        <div class="d-inline-flex align-items-center gap-3 bg-light px-4 py-2 rounded-pill mx-auto mb-4 border">
+            <span class="text-muted small">Order Number:</span>
+            <strong class="text-primary font-monospace fs-5">#{{ order.order_number }}</strong>
+            <span class="badge bg-{% if order.payment_status == 'Paid' %}success{% else %}warning text-dark{% endif %} rounded-pill">
+                {{ order.payment_status }}
+            </span>
+        </div>
+
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{% url 'order_detail' order_number=order.order_number %}" class="btn btn-primary rounded-pill px-4">
+                <i class="bi bi-truck me-2"></i>Track Order Details
+            </a>
+            <button onclick="window.print()" class="btn btn-outline-secondary rounded-pill px-4">
+                <i class="bi bi-printer me-2"></i>Print Receipt
+            </button>
+            <a href="{% url 'home' %}" class="btn btn-outline-dark rounded-pill px-4">
+                <i class="bi bi-arrow-left me-2"></i>Back to Store
+            </a>
+        </div>
+    </div>
+
+    <!-- Order Receipt Card -->
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 border-bottom pb-4 mb-4">
+            <div>
+                <h4 class="fw-bold mb-1">Invoice Receipt</h4>
+                <p class="text-muted small mb-0">Date: {{ order.created_at|date:"F d, Y - h:i A" }}</p>
+            </div>
+            <div class="text-md-end">
+                <span class="badge bg-primary text-uppercase px-3 py-2 rounded-pill">
+                    Status: {{ order.status }}
+                </span>
+            </div>
+        </div>
+
+        <!-- Customer & Shipping Information -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <h6 class="fw-bold text-uppercase small text-muted tracking-wide mb-2">Customer Details</h6>
+                <div class="small text-secondary">
+                    <p class="mb-1"><strong>Name:</strong> {{ order.full_name }}</p>
+                    <p class="mb-1"><strong>Email:</strong> {{ order.email }}</p>
+                    <p class="mb-1"><strong>Phone:</strong> {{ order.phone }}</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h6 class="fw-bold text-uppercase small text-muted tracking-wide mb-2">Shipping Destination</h6>
+                <div class="small text-secondary">
+                    <p class="mb-1">{{ order.address_line1 }}</p>
+                    {% if order.address_line2 %}<p class="mb-1">{{ order.address_line2 }}</p>{% endif %}
+                    <p class="mb-1">{{ order.city }}, {{ order.state }} - {{ order.postal_code }}</p>
+                    <p class="mb-1">{{ order.country }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Itemized Products Table -->
+        <div class="table-responsive mb-4">
+            <table class="table table-bordered align-middle">
+                <thead class="table-light small text-uppercase">
+                    <tr>
+                        <th>Item Description</th>
+                        <th class="text-center">Unit Price</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>
+                            <strong>{{ item.product_name }}</strong>
+                        </td>
+                        <td class="text-center">${{ item.price }}</td>
+                        <td class="text-center">{{ item.quantity }}</td>
+                        <td class="text-end fw-bold">${{ item.total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot class="table-light">
+                    <tr>
+                        <td colspan="3" class="text-end fw-semibold">Subtotal:</td>
+                        <td class="text-end fw-bold">${{ order.subtotal }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-end fw-semibold">Estimated Tax (5%):</td>
+                        <td class="text-end">${{ order.tax }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-end fw-semibold">Shipping Cost:</td>
+                        <td class="text-end text-success">
+                            {% if order.shipping_cost == 0 %}FREE{% else %}${{ order.shipping_cost }}{% endif %}
+                        </td>
+                    </tr>
+                    <tr class="fs-5 table-primary">
+                        <td colspan="3" class="text-end fw-bold text-dark">Total Paid / Due:</td>
+                        <td class="text-end fw-extrabold text-primary">${{ order.total_amount }}</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="alert alert-light border rounded-3 small text-muted d-flex align-items-center gap-2 mb-0">
+            <i class="bi bi-shield-check text-success fs-5"></i>
+            <div>
+                Payment Method: <strong>{{ order.get_payment_method_display }}</strong> &bull; Order records saved into SQLite database.
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

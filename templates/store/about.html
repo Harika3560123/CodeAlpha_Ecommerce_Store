@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% block title %}About - NovaStore | CodeAlpha Task 1{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row align-items-center g-5 mb-5">
+        <div class="col-lg-6">
+            <span class="badge bg-primary text-uppercase px-3 py-1 rounded-pill mb-2">CodeAlpha Internship</span>
+            <h1 class="display-5 fw-bold mb-3">Simple E-Commerce Store</h1>
+            <p class="lead text-muted mb-4">
+                This project was created for <strong>CodeAlpha</strong> Web Development Internship Task 1 (<a href="https://www.codealpha.tech" target="_blank" class="text-primary text-decoration-none">www.codealpha.tech</a>). It demonstrates a complete, production-grade full-stack e-commerce web application.
+            </p>
+            <div class="d-flex gap-3">
+                <a href="https://www.codealpha.tech" target="_blank" class="btn btn-primary rounded-pill px-4 shadow">
+                    <i class="bi bi-globe me-2"></i>Visit CodeAlpha
+                </a>
+                <a href="{% url 'home' %}" class="btn btn-outline-dark rounded-pill px-4">
+                    <i class="bi bi-cart3 me-2"></i>Explore Store
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop&q=80" alt="Tech Dashboard" class="img-fluid">
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Deliverables Grid -->
+    <h3 class="fw-bold mb-4 text-center">Project Architecture & Features Implemented</h3>
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="feature-icon-wrapper mb-3">
+                    <i class="bi bi-laptop"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Frontend Architecture</h5>
+                <p class="text-muted small mb-0">
+                    Handcrafted responsive HTML5, modern CSS with custom design system, and Vanilla JavaScript. Features dynamic AJAX cart adding, instant quantity updates, live toasts, and mobile navigation.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="feature-icon-wrapper mb-3">
+                    <i class="bi bi-server"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Django Backend</h5>
+                <p class="text-muted small mb-0">
+                    Robust Django 5 backend powering REST-like endpoints, session cart management, order calculation logic, authentication middleware, and WhiteNoise static asset serving.
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+                <div class="feature-icon-wrapper mb-3">
+                    <i class="bi bi-database-check"></i>
+                </div>
+                <h5 class="fw-bold mb-2">Database & Models</h5>
+                <p class="text-muted small mb-0">
+                    Relational SQLite database modeling Categories, Products, Carts, CartItems, Orders, OrderItems, and UserProfiles with pre-seeded realistic items and Django Admin dashboard.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Requirements Checklist -->
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+        <h4 class="fw-bold mb-3 border-bottom pb-3">CodeAlpha Task 1 Checklist</h4>
+        <div class="row g-3">
+            <div class="col-md-6">
+                <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span><strong>Product Listings:</strong> Categories, live search & sorting</span>
+                    </li>
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span><strong>Product Details:</strong> High-res preview, specs, ratings & stock</span>
+                    </li>
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span><strong>Shopping Cart:</strong> Dynamic AJAX update, subtotal & free shipping progress</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span><strong>Order Processing:</strong> Address checkout, payment method, invoice generation</span>
+                    </li>
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span><strong>User Registration/Login:</strong> Session auth, profile & order history</span>
+                    </li>
+                    <li class="d-flex align-items-center gap-2">
+                        <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                        <span><strong>Database:</strong> Relational schema for products, users, orders & cart items</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

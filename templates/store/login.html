@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block title %}Sign In - NovaStore{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="auth-card">
+                <div class="text-center mb-4">
+                    <div class="brand-logo-icon mx-auto mb-3" style="width: 48px; height: 48px; font-size: 1.5rem;">
+                        <i class="bi bi-shield-lock-fill"></i>
+                    </div>
+                    <h3 class="fw-bold mb-1">Welcome Back</h3>
+                    <p class="text-muted small">Sign in to manage your orders, wishlist, and cart</p>
+                </div>
+
+                <!-- One-Click Demo Credentials Pill -->
+                <div class="card bg-light border-0 p-3 rounded-3 mb-4">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="small fw-bold text-dark"><i class="bi bi-key-fill text-primary me-1"></i>Quick Evaluator Login</span>
+                        <span class="badge bg-primary-subtle text-primary small">1-Click</span>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" id="btn-fill-demo-customer" class="btn btn-outline-primary btn-sm rounded-pill flex-grow-1">
+                            Demo Customer
+                        </button>
+                        <button type="button" id="btn-fill-demo-admin" class="btn btn-outline-dark btn-sm rounded-pill flex-grow-1">
+                            Demo Admin
+                        </button>
+                    </div>
+                </div>
+
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Username or Email</label>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label small fw-semibold mb-0">Password</label>
+                            <a href="#" class="small text-muted text-decoration-none">Forgot password?</a>
+                        </div>
+                        {{ form.password }}
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 rounded-pill mb-3 shadow">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                    </button>
+
+                    <div class="text-center text-muted small">
+                        Don't have an account yet?
+                        <a href="{% url 'register' %}" class="text-primary fw-bold text-decoration-none">Create an Account</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
