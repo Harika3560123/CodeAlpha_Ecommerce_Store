@@ -1,1 +1,1 @@
-web: gunicorn ecommerce_project.wsgi:application --log-file -
+web: python manage.py migrate && python seed_data.py && gunicorn ecommerce_project.wsgi:application
